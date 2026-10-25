@@ -27,7 +27,8 @@ Open <http://localhost:8080> and sign in with a demo user (password for all: `Pa
 | `sipho` | Sipho Nkosi | exactly 65 | Boundary case: rule is `age > 65`, so still rejected |
 
 The H2 database is in memory and is re-seeded on every start. Every investor has a Retirement Annuity and a
-Tax-Free Savings product.
+Tax-Free Savings product, each with a few months of historical withdrawal notices already seeded (see
+`DataSeeder`), so the history table, date filters and CSV export all have real data to show immediately.
 
 ## Business rules
 
@@ -95,6 +96,12 @@ CSV columns: `Reference, Date, Product, Product Type, Amount, Balance Before, Ba
   form instead of its popup. The frontend keeps the credentials in `sessionStorage`; a production system would use
   tokens or an identity provider instead.
 - **XSS:** the frontend writes server data with `textContent`, never `innerHTML`.
+- **UI theme:** Bootstrap 5 is vendored locally under `static/vendor/bootstrap` (no CDN, so the demo works offline).
+  The palette is a single brand hue (emerald green, in 2-3 shades) on neutral white/gray, following the 60-30-10
+  rule (dominant neutral background, dark green for structure, brand green for interactive accents). Errors keep
+  Bootstrap's default red and success reuses the brand green, so the whole UI uses only two hues. Theming is done by
+  overriding Bootstrap's own CSS custom properties per component (e.g. `--bs-btn-bg` inside `.btn-primary`) rather
+  than recompiling Sass.
 
 ## Advanced requirements implemented
 
