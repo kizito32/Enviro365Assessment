@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Enviro365 Investments | Withdrawal Notices</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header class="topbar">
+    <h1>Enviro365 Investments</h1>
+    <div id="user-box" class="user-box" hidden>
+        <span id="user-name"></span>
+        <button id="logout-btn" type="button" class="btn btn-secondary">Sign out</button>
+    </div>
+</header>
+
+<main class="container">
+    <!-- Login -->
+    <section id="login-view" class="card narrow">
+        <h2>Sign in</h2>
+        <form id="login-form" novalidate>
+            <label for="username">Username</label>
+            <input id="username" name="username" type="text" autocomplete="username" required>
+
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" autocomplete="current-password" required>
+
+            <p id="login-error" class="message error" role="alert" hidden></p>
+            <button type="submit" class="btn">Sign in</button>
+        </form>
+        <p class="hint">Demo users: <strong>thabo</strong>, <strong>lerato</strong>, <strong>sipho</strong>
+            (password <code>Password123!</code>)</p>
+    </section>
+
+    <!-- Dashboard -->
+    <div id="app-view" hidden>
+        <section class="card" aria-labelledby="portfolio-title">
+            <h2 id="portfolio-title">Portfolio</h2>
+            <dl id="investor-details" class="details"></dl>
+            <p class="total">Total balance: <strong id="total-balance"></strong></p>
+            <div id="product-cards" class="cards"></div>
+        </section>
+
+        <section class="card" aria-labelledby="withdraw-title">
+            <h2 id="withdraw-title">Submit a withdrawal notice</h2>
+            <form id="withdraw-form" novalidate>
+                <label for="product-select">Product</label>
+                <select id="product-select" name="productId" required></select>
+
+                <label for="amount">Amount (ZAR)</label>
+                <input id="amount" name="amount" type="text" inputmode="decimal" autocomplete="off"
+                       placeholder="0.00" required aria-describedby="amount-hint amount-error">
+                <p id="amount-hint" class="hint"></p>
+                <p id="amount-error" class="message error" hidden></p>
+
+                <p id="withdraw-message" class="message" role="alert" hidden></p>
+                <button type="submit" class="btn">Submit notice</button>
+            </form>
+        </section>
+
+        <section class="card" aria-labelledby="history-title">
+            <h2 id="history-title">Withdrawal history</h2>
+            <form id="filter-form" class="filters" novalidate>
+                <div>
+                    <label for="filter-from">From</label>
+                    <input id="filter-from" type="date">
+                </div>
+                <div>
+                    <label for="filter-to">To</label>
+                    <input id="filter-to" type="date">
+                </div>
+                <div>
+                    <label for="filter-product">Product</label>
+                    <select id="filter-product"></select>
+                </div>
+                <div class="filter-actions">
+                    <button type="submit" class="btn">Apply filters</button>
+                    <button id="download-btn" type="button" class="btn btn-secondary">Download CSV</button>
+                </div>
+            </form>
+            <p id="history-message" class="message error" role="alert" hidden></p>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Reference</th>
+                        <th>Date</th>
+                        <th>Product</th>
+                        <th class="num">Amount</th>
+                        <th class="num">Balance before</th>
+                        <th class="num">Balance after</th>
+                    </tr>
+                    </thead>
+                    <tbody id="history-body"></tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</main>
+
+<script src="js/app.js"></script>
+</body>
+</html>
