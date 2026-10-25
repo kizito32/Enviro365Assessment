@@ -73,9 +73,9 @@ function setMessage(id, text, kind) {
     const el = $(id);
     el.hidden = !text;
     el.textContent = text || '';
-    el.classList.remove('error', 'success');
-    if (text && kind) {
-        el.classList.add(kind);
+    el.classList.remove('alert-danger', 'alert-success');
+    if (text) {
+        el.classList.add(kind === 'success' ? 'alert-success' : 'alert-danger');
     }
 }
 
@@ -107,8 +107,8 @@ function renderPortfolio() {
         ['Age', String(investor.age)],
         ['Email', investor.email],
     ].forEach(([label, value]) => {
-        const wrapper = el('div');
-        wrapper.append(el('dt', null, label), el('dd', null, value));
+        const wrapper = el('div', 'col');
+        wrapper.append(el('div', 'text-muted small', label), el('div', 'fw-semibold', value));
         details.append(wrapper);
     });
 
@@ -117,16 +117,20 @@ function renderPortfolio() {
     const cards = $('product-cards');
     cards.replaceChildren();
     products.forEach((product) => {
-        const card = el('article', 'product-card');
-        card.append(
-            el('span', 'badge', product.type),
-            el('h3', null, product.name),
-            el('div', 'balance', money.format(product.balance)),
-            el('p', 'hint', product.withdrawable
+        const col = el('div', 'col');
+        const card = el('div', 'card h-100 border-0 shadow-sm');
+        const body = el('div', 'card-body');
+        body.append(
+            el('span', `badge rounded-pill badge-${product.type.toLowerCase()}`, product.type),
+            el('h3', 'h6 mt-2 mb-1', product.name),
+            el('div', 'product-balance', money.format(product.balance)),
+            el('p', 'text-muted small mb-0 mt-1', product.withdrawable
                 ? `Maximum withdrawal: ${money.format(product.maxWithdrawal)}`
                 : 'Withdrawals are only allowed once the investor is older than 65.'),
         );
-        cards.append(card);
+        card.append(body);
+        col.append(card);
+        cards.append(col);
     });
 }
 
@@ -183,9 +187,10 @@ function validateAmount() {
 }
 
 function showAmountError(error) {
-    $('amount').classList.toggle('invalid', Boolean(error));
+    $('amount').classList.toggle('is-invalid', Boolean(error));
     $('amount').setAttribute('aria-invalid', error ? 'true' : 'false');
-    setMessage('amount-error', error, 'error');
+    $('amount-error').textContent = error || '';
+    $('amount-error').classList.toggle('d-block', Boolean(error));
 }
 
 async function submitWithdrawal(event) {
@@ -273,9 +278,9 @@ function renderHistory(rows) {
             el('td', null, w.reference),
             el('td', null, w.createdAt.replace('T', ' ').slice(0, 19)),
             el('td', null, w.productName),
-            el('td', 'num', money.format(w.amount)),
-            el('td', 'num', money.format(w.balanceBefore)),
-            el('td', 'num', money.format(w.balanceAfter)),
+            el('td', 'text-end', money.format(w.amount)),
+            el('td', 'text-end', money.format(w.balanceBefore)),
+            el('td', 'text-end', money.format(w.balanceAfter)),
         );
         body.append(row);
     });

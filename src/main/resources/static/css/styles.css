@@ -1,124 +1,80 @@
+/*
+ * Enviro365 theme, layered on top of Bootstrap 5 (vendor/bootstrap/css/bootstrap.min.css).
+ * Palette: a single brand hue (emerald green, used in 2-3 shades) + neutrals, per the 60-30-10 rule:
+ *   ~60% neutral white/light-gray background (Bootstrap defaults, untouched)
+ *   ~30% dark green for structure (navbar, headers)
+ *   ~10% brand green for interactive accents (buttons, links, focus states)
+ * Errors keep Bootstrap's default red; success reuses the brand green, so only 2 hues exist in total.
+ */
 :root {
-    --navy: #00325f;
-    --yellow: #f8d75a;
-    --bg: #f3f5f8;
-    --text: #1d2733;
-    --muted: #5d6b7a;
-    --error: #b3261e;
-    --success: #1b6e3c;
-    --border: #d5dbe3;
-}
+    --enviro-green: #1f6f4a;
+    --enviro-green-dark: #154430;
+    --enviro-green-darker: #0f3224;
+    --enviro-green-tint: #eaf5ef;
 
-* { box-sizing: border-box; }
+    /* Re-theme Bootstrap's semantic colors to match, without recompiling Sass */
+    --bs-primary: var(--enviro-green);
+    --bs-primary-rgb: 31, 111, 74;
+    --bs-link-color: var(--enviro-green);
+    --bs-link-hover-color: var(--enviro-green-dark);
+    --bs-link-color-rgb: 31, 111, 74;
+    --bs-link-hover-color-rgb: 21, 68, 48;
+    --bs-focus-ring-color: rgba(31, 111, 74, 0.25);
+
+    --bs-success: var(--enviro-green);
+    --bs-success-rgb: 31, 111, 74;
+}
 
 /* Author display rules (flex/grid) would otherwise override the hidden attribute */
 [hidden] { display: none !important; }
 
-body {
-    margin: 0;
-    font-family: "Segoe UI", system-ui, sans-serif;
-    background: var(--bg);
-    color: var(--text);
+body { background-color: #f7f9f8; }
+
+.bg-enviro-dark { background-color: var(--enviro-green-dark) !important; }
+.border-enviro-accent { border-color: var(--enviro-green) !important; }
+.text-enviro { color: var(--enviro-green-dark); }
+
+/* .btn-primary sets its own local custom properties; redefine them here so the cascade (same selector,
+   later wins) retints the button without touching Bootstrap's compiled defaults. */
+.btn-primary {
+    --bs-btn-bg: var(--enviro-green);
+    --bs-btn-border-color: var(--enviro-green);
+    --bs-btn-hover-bg: var(--enviro-green-dark);
+    --bs-btn-hover-border-color: var(--enviro-green-dark);
+    --bs-btn-active-bg: var(--enviro-green-darker);
+    --bs-btn-active-border-color: var(--enviro-green-darker);
+    --bs-btn-disabled-bg: var(--enviro-green);
+    --bs-btn-disabled-border-color: var(--enviro-green);
 }
 
-.topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.75rem 1.5rem;
-    background: var(--navy);
-    color: #fff;
-    border-bottom: 4px solid var(--yellow);
+.form-control:focus, .form-select:focus {
+    border-color: var(--enviro-green);
 }
 
-.topbar h1 { margin: 0; font-size: 1.25rem; }
-.user-box { display: flex; align-items: center; gap: 1rem; }
-
-.container { max-width: 960px; margin: 1.5rem auto; padding: 0 1rem; }
-
-.card {
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1.25rem 1.5rem;
-    margin-bottom: 1.5rem;
+.alert-success {
+    --bs-alert-color: var(--enviro-green-darker);
+    --bs-alert-bg: var(--enviro-green-tint);
+    --bs-alert-border-color: #bfe3cf;
 }
 
-.card.narrow { max-width: 420px; margin-left: auto; margin-right: auto; }
-.card h2 { margin-top: 0; color: var(--navy); font-size: 1.15rem; }
-
-label { display: block; margin: 0.9rem 0 0.25rem; font-weight: 600; font-size: 0.9rem; }
-
-input, select {
-    width: 100%;
-    padding: 0.55rem 0.65rem;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    font: inherit;
-}
-
-input:focus, select:focus, .btn:focus-visible {
-    outline: 3px solid var(--yellow);
-    outline-offset: 1px;
-}
-
-input.invalid { border-color: var(--error); }
-
-.btn {
-    margin-top: 1rem;
-    padding: 0.6rem 1.1rem;
-    border: 0;
-    border-radius: 6px;
-    background: var(--navy);
-    color: #fff;
-    font: inherit;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.btn:hover { background: #004781; }
-.btn:disabled { opacity: 0.6; cursor: not-allowed; }
-.btn-secondary { background: #fff; color: var(--navy); border: 1px solid var(--navy); }
-.btn-secondary:hover { background: #eef3f9; }
-.topbar .btn-secondary { margin-top: 0; }
-
-.hint { color: var(--muted); font-size: 0.85rem; margin: 0.35rem 0 0; }
-.message { margin: 0.75rem 0 0; padding: 0.6rem 0.75rem; border-radius: 6px; font-size: 0.9rem; }
-.message.error { background: #fdecea; color: var(--error); }
-.message.success { background: #e7f5ec; color: var(--success); }
-#amount-error { padding: 0; background: none; margin-top: 0.25rem; }
-
-.details { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem 1.5rem; margin: 0; }
-.details div { min-width: 0; }
-.details dt { color: var(--muted); font-size: 0.8rem; }
-.details dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
-
-.total { margin: 1rem 0 0.5rem; }
-
-.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
-.product-card { border: 1px solid var(--border); border-radius: 8px; padding: 1rem; }
-.product-card h3 { margin: 0.4rem 0 0.2rem; font-size: 1rem; }
-.product-card .balance { font-size: 1.4rem; font-weight: 700; color: var(--navy); }
-
-.badge {
-    display: inline-block;
-    padding: 0.1rem 0.5rem;
-    border-radius: 999px;
-    background: var(--yellow);
-    color: var(--navy);
-    font-size: 0.7rem;
-    font-weight: 700;
+/* Product type badges: two shades of the single brand hue, not a new color */
+.badge-retirement, .badge-savings {
+    --bs-badge-font-size: 0.7rem;
     letter-spacing: 0.04em;
+    text-transform: uppercase;
 }
 
-.filters { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end; }
-.filters > div { flex: 1 1 160px; }
-.filter-actions { display: flex; gap: 0.5rem; flex: 0 0 auto !important; }
-.filter-actions .btn { margin-top: 0; }
+.badge-retirement {
+    background-color: var(--enviro-green-dark);
+    color: #fff;
+}
 
-.table-wrap { overflow-x: auto; margin-top: 1rem; }
-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-th, td { padding: 0.55rem 0.6rem; border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap; }
-th { background: #eef3f9; color: var(--navy); }
-.num { text-align: right; }
-td.empty { text-align: center; color: var(--muted); white-space: normal; }
+.badge-savings {
+    background-color: var(--enviro-green-tint);
+    color: var(--enviro-green-darker);
+    border: 1px solid #bfe3cf;
+}
+
+.product-balance { font-size: 1.4rem; font-weight: 700; color: var(--enviro-green-dark); }
+
+td.empty { text-align: center; color: var(--bs-secondary-color); white-space: normal; }

@@ -4,7 +4,9 @@ Enviro365 Investments junior developer assessment (2026). A full-stack system wh
 portfolio, submit withdrawal notices, review their history and download a CSV statement.
 
 - **Backend:** Spring Boot 3.3 (Java 17), Spring Data JPA, Spring Security, Bean Validation, H2
-- **Frontend:** plain HTML, CSS and JavaScript, served by Spring Boot from `src/main/resources/static`
+- **Frontend:** plain HTML, CSS and JavaScript, served by Spring Boot from `src/main/resources/static`, styled with
+  Bootstrap 5 (vendored locally, no CDN/internet dependency) and an Enviro365 theme (emerald green brand color on
+  clean neutrals, following the 60-30-10 rule)
 - **Package:** `com.enviro.assessment.junior.kizitokayizzi`
 
 ## Setup

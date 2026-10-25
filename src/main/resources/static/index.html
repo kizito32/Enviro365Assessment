@@ -4,97 +4,131 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Enviro365 Investments | Withdrawal Notices</title>
+    <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-<header class="topbar">
-    <h1>Enviro365 Investments</h1>
-    <div id="user-box" class="user-box" hidden>
-        <span id="user-name"></span>
-        <button id="logout-btn" type="button" class="btn btn-secondary">Sign out</button>
+<nav class="navbar navbar-dark bg-enviro-dark border-bottom border-3 border-enviro-accent">
+    <div class="container d-flex justify-content-between align-items-center py-1">
+        <span class="navbar-brand fw-semibold mb-0">Enviro365 Investments</span>
+        <div id="user-box" class="d-flex align-items-center gap-3" hidden>
+            <span id="user-name" class="text-white small"></span>
+            <button id="logout-btn" type="button" class="btn btn-sm btn-outline-light d-inline-flex align-items-center gap-1">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                    <path d="M6 2a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1H6V2zm8 3H2v9a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V5z"/>
+                </svg>
+                Sign out
+            </button>
+        </div>
     </div>
-</header>
+</nav>
 
-<main class="container">
+<main class="container py-4">
     <!-- Login -->
-    <section id="login-view" class="card narrow">
-        <h2>Sign in</h2>
-        <form id="login-form" novalidate>
-            <label for="username">Username</label>
-            <input id="username" name="username" type="text" autocomplete="username" required>
-
-            <label for="password">Password</label>
-            <input id="password" name="password" type="password" autocomplete="current-password" required>
-
-            <p id="login-error" class="message error" role="alert" hidden></p>
-            <button type="submit" class="btn">Sign in</button>
-        </form>
-        <p class="hint">Demo users: <strong>thabo</strong>, <strong>lerato</strong>, <strong>sipho</strong>
-            (password <code>Password123!</code>)</p>
+    <section id="login-view" class="card border-0 shadow-sm mx-auto" style="max-width: 420px;">
+        <div class="card-body p-4">
+            <h2 class="h4 mb-3">Sign in</h2>
+            <form id="login-form" novalidate>
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input id="username" name="username" type="text" class="form-control"
+                           autocomplete="username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input id="password" name="password" type="password" class="form-control"
+                           autocomplete="current-password" required>
+                </div>
+                <div id="login-error" class="alert alert-danger py-2 px-3 small" role="alert" hidden></div>
+                <button type="submit" class="btn btn-primary w-100">Sign in</button>
+            </form>
+            <p class="text-muted small mt-3 mb-0">Demo users: <strong>thabo</strong>, <strong>lerato</strong>,
+                <strong>sipho</strong> (password <code>Password123!</code>)</p>
+        </div>
     </section>
 
     <!-- Dashboard -->
     <div id="app-view" hidden>
-        <section class="card" aria-labelledby="portfolio-title">
-            <h2 id="portfolio-title">Portfolio</h2>
-            <dl id="investor-details" class="details"></dl>
-            <p class="total">Total balance: <strong id="total-balance"></strong></p>
-            <div id="product-cards" class="cards"></div>
+        <section class="card border-0 shadow-sm mb-4" aria-labelledby="portfolio-title">
+            <div class="card-body p-4">
+                <h2 id="portfolio-title" class="h5 mb-3">Portfolio</h2>
+                <div id="investor-details" class="row row-cols-2 row-cols-md-4 g-3 mb-3"></div>
+                <p class="mb-3">Total balance: <strong id="total-balance" class="text-enviro fs-5"></strong></p>
+                <div id="product-cards" class="row row-cols-1 row-cols-md-2 g-3"></div>
+            </div>
         </section>
 
-        <section class="card" aria-labelledby="withdraw-title">
-            <h2 id="withdraw-title">Submit a withdrawal notice</h2>
-            <form id="withdraw-form" novalidate>
-                <label for="product-select">Product</label>
-                <select id="product-select" name="productId" required></select>
-
-                <label for="amount">Amount (ZAR)</label>
-                <input id="amount" name="amount" type="text" inputmode="decimal" autocomplete="off"
-                       placeholder="0.00" required aria-describedby="amount-hint amount-error">
-                <p id="amount-hint" class="hint"></p>
-                <p id="amount-error" class="message error" hidden></p>
-
-                <p id="withdraw-message" class="message" role="alert" hidden></p>
-                <button type="submit" class="btn">Submit notice</button>
-            </form>
+        <section class="card border-0 shadow-sm mb-4" aria-labelledby="withdraw-title">
+            <div class="card-body p-4">
+                <h2 id="withdraw-title" class="h5 mb-3">Submit a withdrawal notice</h2>
+                <form id="withdraw-form" class="row g-3" novalidate>
+                    <div class="col-12 col-md-6">
+                        <label for="product-select" class="form-label">Product</label>
+                        <select id="product-select" name="productId" class="form-select" required></select>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label for="amount" class="form-label">Amount (ZAR)</label>
+                        <div class="input-group">
+                            <span class="input-group-text">R</span>
+                            <input id="amount" name="amount" type="text" inputmode="decimal" class="form-control"
+                                   autocomplete="off" placeholder="0.00" required aria-describedby="amount-hint">
+                            <div id="amount-error" class="invalid-feedback"></div>
+                        </div>
+                        <p id="amount-hint" class="form-text"></p>
+                    </div>
+                    <div class="col-12">
+                        <div id="withdraw-message" class="alert py-2 px-3 small" role="alert" hidden></div>
+                        <button type="submit" class="btn btn-primary">Submit notice</button>
+                    </div>
+                </form>
+            </div>
         </section>
 
-        <section class="card" aria-labelledby="history-title">
-            <h2 id="history-title">Withdrawal history</h2>
-            <form id="filter-form" class="filters" novalidate>
-                <div>
-                    <label for="filter-from">From</label>
-                    <input id="filter-from" type="date">
-                </div>
-                <div>
-                    <label for="filter-to">To</label>
-                    <input id="filter-to" type="date">
-                </div>
-                <div>
-                    <label for="filter-product">Product</label>
-                    <select id="filter-product"></select>
-                </div>
-                <div class="filter-actions">
-                    <button type="submit" class="btn">Apply filters</button>
-                    <button id="download-btn" type="button" class="btn btn-secondary">Download CSV</button>
-                </div>
-            </form>
-            <p id="history-message" class="message error" role="alert" hidden></p>
+        <section class="card border-0 shadow-sm" aria-labelledby="history-title">
+            <div class="card-body p-4">
+                <h2 id="history-title" class="h5 mb-3">Withdrawal history</h2>
+                <form id="filter-form" class="row g-3 align-items-end mb-3" novalidate>
+                    <div class="col-6 col-md-3">
+                        <label for="filter-from" class="form-label">From</label>
+                        <input id="filter-from" type="date" class="form-control">
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <label for="filter-to" class="form-label">To</label>
+                        <input id="filter-to" type="date" class="form-control">
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <label for="filter-product" class="form-label">Product</label>
+                        <select id="filter-product" class="form-select"></select>
+                    </div>
+                    <div class="col-12 col-md-3 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Apply filters</button>
+                        <button id="download-btn" type="button"
+                                class="btn btn-outline-secondary d-inline-flex align-items-center gap-1">
+                            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.1a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.1a.5.5 0 0 1 1 0v2.1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.1a.5.5 0 0 1 .5-.5z"/>
+                                <path d="M7.646 10.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 9.293V1.5a.5.5 0 0 0-1 0v7.793L5.354 7.146a.5.5 0 1 0-.708.708z"/>
+                            </svg>
+                            CSV
+                        </button>
+                    </div>
+                </form>
+                <div id="history-message" class="alert alert-danger py-2 px-3 small" role="alert" hidden></div>
 
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Reference</th>
-                        <th>Date</th>
-                        <th>Product</th>
-                        <th class="num">Amount</th>
-                        <th class="num">Balance before</th>
-                        <th class="num">Balance after</th>
-                    </tr>
-                    </thead>
-                    <tbody id="history-body"></tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                        <tr>
+                            <th>Reference</th>
+                            <th>Date</th>
+                            <th>Product</th>
+                            <th class="text-end">Amount</th>
+                            <th class="text-end">Balance before</th>
+                            <th class="text-end">Balance after</th>
+                        </tr>
+                        </thead>
+                        <tbody id="history-body"></tbody>
+                    </table>
+                </div>
             </div>
         </section>
     </div>
