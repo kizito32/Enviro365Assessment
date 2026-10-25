@@ -78,9 +78,10 @@ class WithdrawalApiIntegrationTest {
                 .andExpect(jsonPath("$.balanceBefore").value(45000.50))
                 .andExpect(jsonPath("$.balanceAfter").value(44000.50));
 
+        // Lerato's savings product already has 1 seeded historical withdrawal, plus the one just created above
         mockMvc.perform(get("/api/withdrawals").with(httpBasic("lerato", PASSWORD)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(1));
+                .andExpect(jsonPath("$.length()").value(2));
     }
 
     @Test
