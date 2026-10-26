@@ -130,4 +130,14 @@ build and tests, and checked the UI in a browser. I can explain every part of th
 
 ## Screenshots
 
-_Add screenshots here: login, portfolio dashboard, withdrawal form with an error, history table._
+**Login**
+![Login screen](docs/screenshots/01-login.png)
+
+**Portfolio dashboard**
+![Portfolio dashboard](docs/screenshots/02-dashboard.png)
+
+**Withdrawal form with a validation error**
+![Withdrawal form showing a validation error](docs/screenshots/03-withdrawal-error.png)
+
+**Withdrawal history**
+![Withdrawal history table](docs/screenshots/04-history.png)
